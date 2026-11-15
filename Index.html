@@ -1,0 +1,159 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Chat App</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #e9edef;
+    }
+
+    header {
+      background: #075e54;
+      color: white;
+      padding: 18px;
+      font-size: 22px;
+    }
+
+    .chat {
+      max-width: 500px;
+      margin: 20px auto;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .contact {
+      padding: 15px;
+      background: #f0f2f5;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .messages {
+      padding: 20px;
+      min-height: 250px;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .message {
+      background: #d9fdd3;
+      padding: 12px;
+      margin: 12px 0;
+      border-radius: 10px;
+      width: fit-content;
+      max-width: 85%;
+      overflow-wrap: anywhere;
+    }
+
+    form {
+      display: flex;
+      padding: 10px;
+      gap: 8px;
+    }
+
+    input {
+      flex: 1;
+      min-width: 0;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 20px;
+    }
+
+    button {
+      background: #128c7e;
+      color: white;
+      border: none;
+      padding: 12px 18px;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      background: #999;
+      cursor: not-allowed;
+    }
+
+    #status {
+      padding: 0 15px 12px;
+      color: #555;
+      font-size: 13px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>My Chat App</header>
+
+  <main class="chat">
+    <div class="contact">
+      🟢 Ahmed — Demo Chat
+    </div>
+
+    <div class="messages" id="messages">
+      <div class="message">
+        Hello! Welcome to my chat.
+      </div>
+    </div>
+
+    <div id="status">Waxaad diri kartaa 2 fariimood.</div>
+
+    <form id="chatForm">
+      <input
+        id="messageInput"
+        placeholder="Type a message..."
+        autocomplete="off"
+        required
+      >
+      <button type="submit">Send</button>
+    </form>
+  </main>
+
+  <script>
+    const form = document.getElementById("chatForm");
+    const input = document.getElementById("messageInput");
+    const messages = document.getElementById("messages");
+    const status = document.getElementById("status");
+    const button = form.querySelector("button");
+
+    let sentMessages = 0;
+    const maxMessages = 2;
+
+    form.addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const text = input.value.trim();
+
+      if (!text || sentMessages >= maxMessages) {
+        return;
+      }
+
+      const bubble = document.createElement("div");
+      bubble.className = "message";
+      bubble.textContent = text;
+
+      messages.appendChild(bubble);
+
+      sentMessages++;
+
+      input.value = "";
+      messages.scrollTop = messages.scrollHeight;
+
+      if (sentMessages >= maxMessages) {
+        input.disabled = true;
+        button.disabled = true;
+        status.textContent = "Labadii fariimood waad dirtay.";
+        input.placeholder = "Fariimihii way dhammaadeen";
+      } else {
+        status.textContent =
+          "Waxaad dirtay 1 fariin. Waxaad haysataa 1 kale.";
+      }
+    });
+  </script>
+</body>
+</html>
